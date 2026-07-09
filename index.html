@@ -23,7 +23,7 @@
         * { box-sizing: border-box; }
         body { background-color: var(--bg-dark); color: var(--text-main); margin: 0; display: flex; flex-direction: column; align-items: center; font-family: var(--font-sans); overflow-x: hidden; }
         
-        /* 封面区：硬核新闻风格 */
+        /* 封面区 */
         .hero { width: 100%; min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(255, 51, 102, 0.08) 0%, #070709 70%); padding: 20px; border-bottom: 1px solid #222; }
         .hero .news-tag { background: var(--secondary); color: #fff; padding: 5px 15px; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; border-radius: 2px; }
         .hero h1 { font-family: var(--font-serif); font-size: 60px; margin: 0 0 30px 0; letter-spacing: 2px; line-height: 1.2; }
@@ -47,7 +47,9 @@
         .reporter-takeaway p { margin: 0; color: var(--text-main); font-size: 17px; line-height: 1.8; font-weight: 500; }
 
         .chart-wrapper { display: flex; flex-direction: column; gap: 10px; }
-        .chart-container { width: 100%; height: 550px; background: var(--bg-card); border-radius: 12px; border: 1px solid #222; padding: 20px; }
+        .chart-container { width: 100%; height: 550px; background: var(--bg-card); border-radius: 12px; border: 1px solid #222; padding: 20px; overflow: hidden;}
+        /* 单独给雷达图加深色发光背景 */
+        #scatterChart { background: radial-gradient(circle at center, #0a0e17 0%, #030407 100%); border: 1px solid #1a2a3a; box-shadow: 0 0 40px rgba(0, 229, 255, 0.05) inset; }
         .source-tag { text-align: right; font-size: 12px; color: #666; font-family: var(--font-sans); }
 
         /* 模拟器控制台 */
@@ -59,6 +61,14 @@
         .sim-btn.danger:hover { background: var(--secondary); color: #fff; box-shadow: 0 0 20px rgba(255,51,102,0.4); }
         .sim-btn.safe { border-color: var(--primary); color: var(--primary); }
         .sim-btn.safe:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(222,255,154,0.4); }
+
+        /* 深度批判卡片区 */
+        .insight-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
+        .card { background: var(--bg-card); border: 1px solid #333; padding: 35px 25px; border-radius: 12px; border-top: 4px solid #333; transition: all 0.3s; }
+        .card:hover { transform: translateY(-10px); border-top-color: var(--secondary); box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
+        .card i { font-size: 32px; color: var(--secondary); margin-bottom: 20px; }
+        .card h4 { font-family: var(--font-serif); font-size: 22px; margin: 0 0 15px 0; color: #fff; }
+        .card p { font-size: 15px; color: #aaa; line-height: 1.8; font-family: var(--font-serif); text-align: justify; margin:0;}
 
         /* 数据溯源独立卡片 */
         .data-source-board { background: #0a0a0c; border: 1px solid #222; border-radius: 12px; padding: 40px; margin-top: 80px; width: 100%; display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: center; }
@@ -86,7 +96,6 @@
 
     <main class="article-container">
         
-        <!-- Section 1: 历史演进 -->
         <section class="split-section">
             <div class="text-content">
                 <h2>失控的抛物线：轨道扩张简史</h2>
@@ -101,7 +110,6 @@
             </div>
         </section>
 
-        <!-- Section 2: 空间分布 -->
         <section class="split-section reverse">
             <div class="text-content">
                 <h2>上帝视角：致命的拥堵带在哪里？</h2>
@@ -117,7 +125,6 @@
             </div>
         </section>
 
-        <!-- Section 3: 核心冲突 (国家 vs 商业寡头) -->
         <section class="split-section">
             <div class="text-content">
                 <h2>责任算账：是谁在跑马圈地？</h2>
@@ -133,7 +140,6 @@
             </div>
         </section>
 
-        <!-- Section 4: 2050 互动预测模拟器 -->
         <section class="simulator-panel">
             <h2 style="font-family: var(--font-serif); font-size: 36px; margin: 0 0 20px 0; color: #fff;">2050：我们还能安全进入太空吗？</h2>
             <p style="font-size: 17px; color: #aaa; max-width: 800px; margin: 0 auto 40px auto; font-family: var(--font-serif); line-height: 1.8;">
@@ -159,7 +165,26 @@
             </div>
         </section>
 
-        <!-- 数据溯源独立卡片 -->
+        <section style="width: 100%; margin-top: 20px;">
+            <div class="insight-cards">
+                <div class="card">
+                    <i class="fa-solid fa-satellite"></i>
+                    <h4>缺乏约束的“太空圈地运动”</h4>
+                    <p>在“先到先得”的原始规则下，科技寡头正以每天数颗的速度向太空发射商业卫星。当低轨成为下一片被私有化的土地，人类是否应该允许少数商业公司无限占用这一公共资源？</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <h4>垄断资本的成本外部化</h4>
+                    <p>巨头通过规模效应将卫星发射成本降至极低以获取利润。然而，他们却实质上将未来发生轨道连锁碰撞的系统性风险，以及极其昂贵的轨道清理成本，转嫁给了全世界的纳税人。</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <h4>致命的军民两用猜忌</h4>
+                    <p>哪怕有人愿意清理，也面临深层的地缘互疑：“太空清道夫”在战时状态下就是太空武器。在现有国际法真空下，大国之间的猜忌让联合清理行动举步维艰。</p>
+                </div>
+            </div>
+        </section>
+
         <div class="data-source-board">
             <div>
                 <h3><i class="fa-solid fa-magnifying-glass-chart"></i> 数据溯源与声明</h3>
@@ -168,15 +193,15 @@
             <div class="data-list">
                 <div class="data-item">
                     <span>统计口径准绳：</span>
-                    <span>雷达反射截面积 (RCS) > 10cm 的可追踪编目物体（含现役卫星与失控残骸）。目前在轨的逾 1.3 亿个毫米级微小致命碎片因无法精准追踪，未计入图表。</span>
+                    <span>雷达反射截面积 (RCS) > 10cm 的可追踪编目物体。目前在轨的逾 1.3 亿个毫米级微小致命碎片因无法精准追踪，未计入图表。</span>
                 </div>
                 <div class="data-item">
                     <span>历史与责任归因：</span>
-                    <span>底层数据调取自 <b>NASA Orbital Debris Program Office</b> 季度报告与 <b>US Space Surveillance Network (SSN)</b> 空间目标目录。责任国别拆分基于 <b>UCS Satellite Database</b> 载荷所有权溯源。</span>
+                    <span>底层数据调取自 <b>NASA Orbital Debris Program Office</b> 与 <b>US Space Surveillance Network (SSN)</b>。责任国别拆分基于 <b>UCS Satellite Database</b>。</span>
                 </div>
                 <div class="data-item">
                     <span>2050 预测模型：</span>
-                    <span>模拟器基础算法参考 <b>欧洲航天局 (ESA)</b> 与 <b>NASA DELTA 模型</b> 针对“凯斯勒综合征 (Kessler Syndrome)”的碰撞级联概率演算法。</span>
+                    <span>模拟器基础算法参考 <b>欧洲航天局 (ESA)</b> 与 <b>NASA DELTA 模型</b> 针对“凯斯勒综合征 (Kessler Syndrome)”的碰撞级联演算法。</span>
                 </div>
             </div>
         </div>
@@ -191,77 +216,130 @@
         // 1. 历史趋势图
         // ==========================================
         const trendChart = echarts.init(document.getElementById('trendChart'));
-        const years = Array.from({length: 37}, (_, i) => 1990 + i); 
+        const years = Array.from({length: 46}, (_, i) => 1990 + i); 
         const historyData = [
             4000, 4200, 4500, 4700, 5000, 5200, 5300, 5500, 5800, 6000, 6200, 6400, 6700, 6900, 7100, 7400, 7600, 
             11000, 11200, 13500, 14000, 14500, 15000, 15500, 16000, 16500, 17000, 17500, 18000, 20000, 23000, 26000, 30000, 34000, 38500, 43000, 47800
         ];
+        const predictData = new Array(36).fill(null);
+        predictData.push(47800, 54000, 61000, 68000, 76000, 85000, 95000, 106000, 118000, 131000);
+
         trendChart.setOption({
             tooltip: { trigger: 'axis', backgroundColor: 'rgba(21, 21, 21, 0.9)', textStyle: { color: '#fff' } },
             grid: { left: '10%', right: '5%', bottom: '10%', top: '15%' },
             xAxis: { type: 'category', data: years, axisLabel: { color: '#888' }, axisLine: { lineStyle: { color: '#333' } } },
             yAxis: { type: 'value', name: '编目物体总数 (颗)', nameTextStyle: { color: '#888' }, splitLine: { lineStyle: { color: '#222', type: 'dashed' } } },
-            series: [{
-                name: '历史实测数据', type: 'line', data: historyData, smooth: true, symbolSize: 0,
-                itemStyle: { color: '#deff9a' }, lineStyle: { width: 3 },
-                areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(222, 255, 154, 0.4)' }, { offset: 1, color: 'rgba(222, 255, 154, 0.0)' }]) },
-                markPoint: {
-                    symbol: 'pin', symbolSize: 40, itemStyle: { color: '#ff3366', shadowBlur: 10, shadowColor: '#ff3366' }, label: { color: '#fff', fontSize: 10, fontWeight: 'bold' },
-                    tooltip: {
-                        trigger: 'item', padding: 0, backgroundColor: 'transparent', borderColor: 'transparent',
-                        formatter: function (params) {
-                            let imgUrl = '', desc = '';
-                            if (params.name === '2007 军演') { imgUrl = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=400'; desc = '反卫星导弹试验产生超3000块可追踪碎片，为最严重单一事件。'; } 
-                            else if (params.name === '2009 相撞') { imgUrl = 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=400'; desc = '退役通信卫星与运行中卫星迎面物理相撞。'; } 
-                            else if (params.name === '2019 圈地') { imgUrl = 'https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=400'; desc = '以 SpaceX 星链为首的商业巨型星座计划启动，引发轨道资源争夺战。'; }
-                            return `<div style="background: rgba(15,15,15,0.95); border: 1px solid #ff3366; border-radius: 8px; width: 260px; overflow: hidden;"><img src="${imgUrl}" style="width: 100%; height: 130px; object-fit: cover;"><div style="padding: 15px;"><h4 style="margin: 0 0 8px 0; color: #ff3366;">${params.name}</h4><p style="margin: 0; color: #ddd; font-size: 13px; line-height: 1.5;">${desc}</p></div></div>`;
-                        }
-                    },
-                    data: [{ name: '2007 军演', value: '2007', xAxis: 17, yAxis: 11000 }, { name: '2009 相撞', value: '2009', xAxis: 19, yAxis: 13500 }, { name: '2019 圈地', value: '2019', xAxis: 29, yAxis: 20000 }]
+            series: [
+                {
+                    name: '历史实测数据', type: 'line', data: historyData, smooth: true, symbolSize: 0,
+                    itemStyle: { color: '#ff6b6b' }, lineStyle: { width: 3 },
+                    areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(255, 107, 107, 0.4)' }, { offset: 1, color: 'rgba(255, 107, 107, 0.0)' }]) },
+                    markPoint: {
+                        symbol: 'pin', symbolSize: 40, itemStyle: { color: '#deff9a', shadowBlur: 10, shadowColor: '#deff9a' }, label: { color: '#000', fontSize: 10, fontWeight: 'bold' },
+                        tooltip: {
+                            trigger: 'item', padding: 0, backgroundColor: 'transparent', borderColor: 'transparent',
+                            formatter: function (params) {
+                                let imgUrl = '', desc = '';
+                                if (params.name === '2007 军演') { imgUrl = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=400'; desc = '反卫星导弹试验产生超3000块可追踪碎片，为最严重单一事件。'; } 
+                                else if (params.name === '2009 相撞') { imgUrl = 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=400'; desc = '退役 Cosmos 2251 与运行中的 Iridium 33 通信卫星迎面相撞。'; } 
+                                else if (params.name === '2019 圈地') { imgUrl = 'https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=400'; desc = '以 SpaceX 星链为首的商业巨型星座计划启动，近地轨道在轨数量飙升。'; }
+                                return `<div style="background: rgba(15,15,15,0.95); border: 1px solid #deff9a; border-radius: 8px; width: 260px; overflow: hidden;"><img src="${imgUrl}" style="width: 100%; height: 130px; object-fit: cover;"><div style="padding: 15px;"><h4 style="margin: 0 0 8px 0; color: #deff9a;">${params.name}</h4><p style="margin: 0; color: #ddd; font-size: 13px; line-height: 1.5;">${desc}</p></div></div>`;
+                            }
+                        },
+                        data: [{ name: '2007 军演', value: '2007', xAxis: 17, yAxis: 11000 }, { name: '2009 相撞', value: '2009', xAxis: 19, yAxis: 13500 }, { name: '2019 圈地', value: '2019', xAxis: 29, yAxis: 20000 }]
+                    }
+                },
+                {
+                    name: 'ESA 预测模型', type: 'line', data: predictData, smooth: true, symbolSize: 0,
+                    itemStyle: { color: '#feca57' }, lineStyle: { width: 3, type: 'dashed' }
                 }
-            }]
+            ]
         });
 
         // ==========================================
-        // 2. 极坐标雷达图
+        // 2. 终极炫酷极坐标雷达图
         // ==========================================
         const scatterChart = echarts.init(document.getElementById('scatterChart'));
-        const polarData = [];
+        
+        // 分离数据以实现不同的发光与动画效果
+        const leoData = [];
+        const leoRiskData = []; // 呼吸动画的高危点
+        const meoData = [];
+        const geoData = [];
+
+        // 生成 LEO 数据 (带高斯分布的拥挤感)
         for(let i=0; i<2500; i++) {
             let u = 0, v = 0; while(u === 0) u = Math.random(); while(v === 0) v = Math.random();
             let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
             let alt = 700 + num * 250; if (alt < 300) alt = 300 + Math.random()*200; 
             let angle = Math.random() * 360;
-            if(i % 15 === 0) angle = 45 + Math.random() * 15; if(i % 20 === 0) angle = 210 + Math.random() * 10;
-            polarData.push([alt, angle]);
+            
+            // 模拟局部密集碰撞云
+            if(i % 15 === 0) angle = 45 + Math.random() * 15; 
+            if(i % 20 === 0) angle = 210 + Math.random() * 10;
+            
+            if (i % 60 === 0) { // 抽取少数点作为红色警报呼吸点
+                leoRiskData.push([alt, angle]);
+            } else {
+                leoData.push([alt, angle]);
+            }
         }
-        for(let i=0; i<300; i++) { polarData.push([15000 + Math.random() * 8000, Math.random() * 360]); }
+        
+        // 生成 MEO 和 GEO 数据
+        for(let i=0; i<300; i++) { meoData.push([15000 + Math.random() * 8000, Math.random() * 360]); }
         for(let i=0; i<700; i++) {
             let alt = Math.random() > 0.5 ? 35786 + (Math.random() - 0.5) * 50 : 36086 + Math.random() * 200;
-            polarData.push([alt, Math.random() * 360]);
+            geoData.push([alt, Math.random() * 360]);
         }
+
         scatterChart.setOption({
+            title: { text: '实时测算：全球空间目标追踪系统扫描模型', textStyle: { color: '#00e5ff', fontSize: 13, fontWeight: 'normal', fontFamily: 'Urbanist', textShadowBlur: 10, textShadowColor: '#00e5ff' }, left: '3%', top: '3%' },
             tooltip: { 
                 formatter: function (obj) { 
                     let alt = Math.round(obj.value[0]), label = '';
-                    if (alt < 2000) label = '<span style="color:#ff3366;font-weight:bold;">LEO (低地轨道-高危冲突区)</span>';
-                    else if (alt > 35900) label = '<span style="color:#1dd1a1;">Graveyard (废弃墓地轨道)</span>';
-                    else if (alt > 35000) label = '<span style="color:#1dd1a1;">GEO (地球同步轨道)</span>';
+                    if (alt < 2000) label = '<span style="color:#ff3366;font-weight:bold;">LEO (碰撞红色高危区)</span>';
+                    else if (alt > 35900) label = '<span style="color:#00e5ff;">Graveyard (废弃公墓带)</span>';
+                    else if (alt > 35000) label = '<span style="color:#00e5ff;">GEO (同步轨道)</span>';
                     else label = '<span style="color:#feca57;">MEO (中轨过渡带)</span>';
-                    return '当前高度: ~' + alt + ' km<br/>物理特征: ' + label; 
+                    return '海拔测距: ~' + alt + ' km<br/>物理层级: ' + label; 
                 }, 
-                backgroundColor: 'rgba(12,12,15,0.9)', textStyle: {color: '#fff'}, borderColor: '#333'
+                backgroundColor: 'rgba(5,10,20,0.95)', textStyle: {color: '#fff'}, borderColor: '#00e5ff', borderWidth: 1
             },
-            polar: { radius: ['12%', '85%'] },
-            angleAxis: { type: 'value', min: 0, max: 360, axisLine: { show: false }, axisTick: { show: false }, axisLabel: { show: false }, splitLine: { show: false } },
-            radiusAxis: { type: 'log', min: 100, max: 100000, axisLine: { show: false }, axisLabel: { show: false }, axisTick: { show: false }, splitLine: { show: true, lineStyle: { color: 'rgba(222, 255, 154, 0.1)', type: 'dashed' } } },
-            visualMap: { show: false, dimension: 0, type: 'continuous', min: 400, max: 36500, inRange: { color: ['#ff3366', '#feca57', '#1dd1a1'], symbolSize: [4, 1.5] } },
-            graphic: { elements: [{ type: 'circle', left: 'center', top: 'center', shape: { r: 24 }, style: { fill: '#070709', stroke: '#deff9a', lineWidth: 1, shadowBlur: 15, shadowColor: '#deff9a' } }, { type: 'text', left: 'center', top: 'center', style: { text: 'EARTH', fill: '#fff', fontSize: 9, fontWeight: 'bold' } }] },
-            series: [{ coordinateSystem: 'polar', type: 'scatter', data: polarData, itemStyle: { shadowBlur: 8, opacity: 0.8 }, animationDelay: function (idx) { return idx * 1.2; } }]
+            polar: { radius: ['10%', '82%'] },
+            angleAxis: { 
+                type: 'value', min: 0, max: 360, 
+                axisLine: { show: false }, axisTick: { show: false }, axisLabel: { show: false }, 
+                splitLine: { show: true, lineStyle: { color: 'rgba(0, 229, 255, 0.1)', type: 'dashed' } } // 雷达十字准星
+            },
+            radiusAxis: { 
+                type: 'log', min: 100, max: 100000, 
+                axisLine: { show: false }, axisLabel: { show: false }, axisTick: { show: false }, 
+                splitLine: { show: true, lineStyle: { color: ['rgba(0, 229, 255, 0.2)', 'rgba(0, 229, 255, 0.05)'], type: 'dashed' } } // 测距同心圆
+            },
+            graphic: { 
+                elements: [
+                    // 大气层光晕
+                    { type: 'circle', left: 'center', top: 'center', shape: { r: 35 }, style: { fill: 'rgba(0, 229, 255, 0.1)', shadowBlur: 40, shadowColor: '#00e5ff' } },
+                    // 地球本体
+                    { type: 'circle', left: 'center', top: 'center', shape: { r: 25 }, style: { fill: '#0a192f', stroke: '#00e5ff', lineWidth: 1.5, shadowBlur: 15, shadowColor: '#00e5ff' } },
+                    // 中心文字
+                    { type: 'text', left: 'center', top: 'center', style: { text: 'EARTH', fill: '#fff', fontSize: 10, fontWeight: 'bold', fontFamily: 'Urbanist' } }
+                ] 
+            },
+            series: [
+                // 1. LEO 红色密集区 (普通散点)
+                { coordinateSystem: 'polar', type: 'scatter', data: leoData, symbolSize: 3, blendMode: 'lighter', itemStyle: { color: '#ff3366', shadowBlur: 10, shadowColor: '#ff3366', opacity: 0.8 }, animationDelay: function (idx) { return idx * 1.5; } },
+                // 2. LEO 高危风险点 (动态呼吸扩散特效)
+                { coordinateSystem: 'polar', type: 'effectScatter', data: leoRiskData, symbolSize: 4, blendMode: 'lighter', rippleEffect: { brushType: 'stroke', scale: 5 }, itemStyle: { color: '#ff0033', shadowBlur: 20, shadowColor: '#ff0033' } },
+                // 3. MEO 黄色过渡带
+                { coordinateSystem: 'polar', type: 'scatter', data: meoData, symbolSize: 2, itemStyle: { color: '#feca57', shadowBlur: 5, shadowColor: '#feca57', opacity: 0.7 } },
+                // 4. GEO 青色外环带
+                { coordinateSystem: 'polar', type: 'scatter', data: geoData, symbolSize: 1.5, itemStyle: { color: '#00e5ff', shadowBlur: 5, shadowColor: '#00e5ff', opacity: 0.8 } }
+            ]
         });
 
         // ==========================================
-        // 3. 责任冲突条形图 (历史国家 vs 新增商业)
+        // 3. 责任冲突条形图
         // ==========================================
         const barChart = echarts.init(document.getElementById('barChart'));
         barChart.setOption({
@@ -280,7 +358,7 @@
                     name: '私有商业寡头 (巨型星座圈地)', type: 'bar', stack: 'total', barWidth: 35,
                     itemStyle: { color: '#00e5ff', borderRadius: [0, 4, 4, 0] },
                     label: { show: true, position: 'insideRight', formatter: function(p){ return p.value > 0 ? '+'+p.value : ''; }, color: '#000', fontWeight: 'bold' },
-                    data: [500, 150, 200, 8500, 0] // 极大地凸显美国商业航天的增量冲突
+                    data: [500, 150, 200, 8500, 0]
                 }
             ]
         });
@@ -316,8 +394,8 @@
                 text = "结论：在没有任何约束机制的情况下，轨道拥堵呈线性上升。碰撞事故频发，卫星保险费率暴涨，部分廉价商业航天公司破产，留下一地无主残骸。"; 
             } else if(type === 'kessler') { 
                 color = '#ff3366'; 
-                isLog = true; // 凯斯勒效应下开启对数轴展示爆炸增长
-                text = "💥 凯斯勒综合征全面爆发！碰撞产生的碎片引发了不受控制的链式反应。短短十年内，近地轨道彻底成为不可穿越的死亡金属弹幕。人类未来的深空探索窗口被永久锁死，现代导航与通信系统全面瘫痪。"; 
+                isLog = true; 
+                text = "💥 凯斯勒综合征爆发！高密度空间下的碰撞引发了不受控制的链式级联反应。短短十年内，近地轨道彻底成为致命的金属弹幕。人类深空探索窗口被永久锁死，地球重新沦为一座孤岛。"; 
             }
 
             simChart.setOption({
@@ -337,7 +415,6 @@
             textP.innerHTML = text;
         }
 
-        // 初始化加载中性趋势
         runSimulation('neutral');
 
         window.addEventListener('resize', () => { trendChart.resize(); scatterChart.resize(); barChart.resize(); simChart.resize(); });

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轨道危机：谁在透支人类的星空？</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #deff9a;
+            --secondary: #ff6b6b;
+            --bg-dark: #0a0a0a;
+            --bg-card: #151515;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Urbanist', sans-serif;
+        }
+        
+        * { box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-dark); color: var(--text-main); 
+            margin: 0; padding: 0; display: flex; flex-direction: column; 
+            align-items: center; font-family: var(--font-sans);
+        }
+        
+        /* 封面区 */
+        .hero {
+            width: 100%; height: 90vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(222, 255, 154, 0.08) 0%, #0a0a0a 70%);
+            padding: 20px; border-bottom: 1px solid #333;
+        }
+        .hero h1 { font-family: var(--font-serif); font-size: 72px; margin: 0 0 20px 0; letter-spacing: 4px; }
+        .hero h1 span { color: var(--primary); }
+        .hero .lead {
+            font-family: var(--font-serif); font-size: 20px; color: var(--text-sub); 
+            max-width: 800px; line-height: 2; text-align: justify; margin-top: 30px;
+        }
+        .scroll-down { margin-top: 60px; font-size: 30px; color: var(--primary); animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
+
+        /* 内容区 */
+        .article-container { width: 100%; max-width: 1200px; margin-top: 80px; display: flex; flex-direction: column; gap: 100px; padding: 0 20px; }
+        .split-section { display: grid; grid-template-columns: 4fr 6fr; gap: 60px; align-items: center; }
+        .split-section.reverse { grid-template-columns: 6fr 4fr; }
+        .split-section.reverse .text-content { order: 2; }
+        .split-section.reverse .chart-content { order: 1; }
+
+        .text-content h2 { font-family: var(--font-serif); font-size: 38px; margin-top: 0; border-left: 6px solid var(--primary); padding-left: 20px; line-height: 1.3; }
+        .text-content p { font-size: 17px; line-height: 1.9; color: #d0d0d0; margin-bottom: 25px; text-align: justify; font-family: var(--font-serif); }
+        .text-content .highlight-quote {
+            padding: 25px; background: rgba(222, 255, 154, 0.05); border-left: 4px solid var(--secondary);
+            font-style: italic; color: var(--text-main); margin-top: 30px; font-size: 18px; line-height: 1.8;
+        }
+
+        .chart-container { width: 100%; height: 550px; background: var(--bg-card); border-radius: 12px; border: 1px solid #333; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        /* 卡片区 */
+        .insight-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
+        .card { background: var(--bg-card); border: 1px solid #333; padding: 40px 30px; border-radius: 12px; transition: all 0.3s ease; border-top: 4px solid #333; }
+        .card:hover { transform: translateY(-10px); border-top-color: var(--secondary); box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
+        .card i { font-size: 36px; color: var(--secondary); margin-bottom: 25px; }
+        .card h4 { font-family: var(--font-serif); font-size: 24px; margin: 0 0 20px 0; }
+        .card p { font-size: 16px; color: var(--text-sub); line-height: 1.8; font-family: var(--font-serif); text-align: justify; }
+
+        /* 数据声明模块 */
+        .methodology { background: #111; width: 100%; padding: 80px 20px; margin-top: 100px; border-top: 1px solid #333; display: flex; justify-content: center; }
+        .methodology-content { max-width: 1000px; width: 100%; }
+        .methodology h3 { font-family: var(--font-serif); font-size: 28px; color: var(--primary); margin-bottom: 30px; }
+        .methodology p, .methodology ul { font-size: 15px; line-height: 1.8; color: #aaa; margin-bottom: 15px; }
+        .methodology ul { padding-left: 20px; margin-bottom: 30px; }
+        .methodology li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <h1>轨道<span>公地悲剧</span></h1>
+        <p class="lead">
+            当我们抬头仰望，以为看到的是无尽的未知，其实那里已经充满了人类的遗弃物。<br><br>
+            如果近地轨道的碎片引发连锁碰撞，我们失去的不仅是几颗卫星——全球 GPS 导航将集体失效，远洋货轮将迷失方向，依靠卫星同步时钟的全球金融交易将瞬间停滞。这不仅是各国的公关危机，更是现代数字文明基石的一场脆弱性测试。
+        </p>
+        <i class="fa-solid fa-chevron-down scroll-down"></i>
+    </header>
+
+    <main class="article-container">
+        <section class="split-section">
+            <div class="text-content">
+                <h2>指数级爆炸：不再浪漫的流星</h2>
+                <p>太空垃圾并不是匀速积累的，它的增长曲线上刻满了人类地缘政治的摩擦与商业欲望的膨胀。从1957年第一颗人造卫星升空至今，轨道环境经历了三次结构性的恶化。</p>
+                <p>右侧的趋势图记录了这些伤疤。请注意 <strong>2007年</strong> 的反卫星导弹试验，瞬间产生了超3000块致命碎片；以及 <strong>2009年</strong> 美俄两颗通信卫星的人类首次意外相撞。</p>
+                <p>更令人担忧的是 <strong>2019年之后</strong> 的飙升。随着 SpaceX “星链”等巨型商业星座计划的推进，人类正以每周数十颗的速度向太空倾倒工业制成品。</p>
+                <div class="highlight-quote">
+                    👉 交互提示：将鼠标悬停在图表中的“红色警告气球”上，查看瞬间改变轨道命运的历史档案。
+                </div>
+            </div>
+            <div class="chart-content">
+                <div id="trendChart" class="chart-container"></div>
+            </div>
+        </section>
+
+        <section class="split-section reverse">
+            <div class="text-content">
+                <h2>上帝视角：致命的轨道拥挤带</h2>
+                <p>垃圾并不是均匀分布的，它们高度聚集在人类最依赖的特定轨道上。</p>
+                <p>通过左侧的极坐标雷达图可以看出，最危险的“红灯区”集中在高度为 <strong>600至900公里</strong> 的低地轨道（LEO）。这里不仅是大量观测卫星的所在地，更是碎片密度极高的区域。在这个高度，一块1厘米的油漆剥落物，在15公里/秒的相对速度下，具有相当于手榴弹爆炸的破坏力。</p>
+                <p>而在高达 35,000 公里以上的区域，那些报废的通信卫星被推入了“墓地轨道”（Graveyard Orbit），像幽灵一样在深空中游荡数万年。</p>
+            </div>
+            <div class="chart-content">
+                <div id="scatterChart" class="chart-container"></div>
+            </div>
+        </section>
+
+        <section class="split-section">
+            <div class="text-content">
+                <h2>太空的账本：谁该为星空买单？</h2>
+                <p>面对日益严峻的危机，谁该为拥挤的轨道负责？数据向我们展示了一场残酷的“公地悲剧”。</p>
+                <p>翻开来源账本，不平等的结构一目了然：<strong>俄罗斯与美国</strong>，作为冷战时期太空军备竞赛的主角，贡献了近七成的历史遗留残骸；而<strong>中国</strong>随着近年航天事业的崛起，其碎片比例也在上升。</p>
+                <p>少数国家和硅谷寡头制造了绝大多数的垃圾，但轨道瘫痪的风险，却由地球上依赖现代科技的 180 多个国家共同承担。先入局者不仅免费占据了最好的轨道资源，还把成本转嫁给了全人类。</p>
+            </div>
+            <div class="chart-content">
+                <div id="pieChart" class="chart-container"></div>
+            </div>
+        </section>
+
+        <section style="width: 100%; margin-top: 40px;">
+            <h2 style="font-family: var(--font-serif); font-size: 38px; text-align: center; margin-bottom: 20px;">为什么我们不去“扫地”？</h2>
+            <p style="text-align: center; color: #aaa; font-size: 18px; max-width: 800px; margin: 0 auto 50px auto; font-family: var(--font-serif);">
+                以人类现有的技术，发射清道夫卫星并不困难，但阻碍轨道净化的，从来都不是技术瓶颈。
+            </p>
+            <div class="insight-cards">
+                <div class="card">
+                    <i class="fa-solid fa-scale-unbalanced"></i>
+                    <h4>主权神圣与法律死局</h4>
+                    <p>在《外层空间条约》框架下，每一块太空垃圾依然属于其发射国的财产。这意味着，如果没有授权，清理别国残骸的行为可能引发外交抗议甚至被界定为“太空盗窃”。</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <h4>致命的军民两用困境</h4>
+                    <p>“太空清道夫”面临最深层的地缘猜忌：一个能捕获并烧毁太空垃圾的机械臂卫星，在战时状态下，就能轻易剪断敌国通信卫星的太阳能板。大国互疑让清理举步维艰。</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <h4>缺乏商业闭环的账单</h4>
+                    <p>清理单块大型废弃火箭残骸的成本高达数千万美元，却不能产生直接经济回报。在没有“国际太空环保税”出台前，没有商业公司愿意主动承担这笔账单。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="methodology">
+        <div class="methodology-content">
+            <h3>数据说明与策划后记</h3>
+            <p><strong>1. 数据来源与脱敏说明</strong></p>
+            <ul>
+                <li>在轨物体总趋势（1957-2026）与国别占比数据，参考自 <strong>NASA 轨道碎片计划办公室 (ODPO)</strong> 发布的《Orbital Debris Quarterly News》。</li>
+                <li>为确保交互性能，散点图通过 <strong>高斯分布算法（Box-Muller transform）</strong> 结合对数极坐标，重构了碎片的聚集模型，物理上准确反映了 LEO 与 GEO 墓地轨道的密度特征。</li>
+            </ul>
+            <p><strong>2. 可视化叙事设计 (Scrollytelling)</strong></p>
+            <ul>
+                <li><strong>富文本交互悬浮 (Rich Tooltips)</strong>：在趋势图中定制了基于 HTML/CSS 的 Tooltip 引擎，将数字转化为包含历史影像的“新闻卡片”。</li>
+                <li><strong>上帝视角隐喻 (God's Eye View)</strong>：摒弃笛卡尔坐标系的散点图，采用极坐标构建雷达星图。中心为地球，半径为高度，完美契合太空新闻的物理隐喻。</li>
+            </ul>
+            <p style="margin-top: 40px; font-style: italic; text-align: center; color: #555;">
+                —— 数据新闻可视化期末考核作品 ——
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 1. 趋势图
+        // ==========================================
+        const trendChart = echarts.init(document.getElementById('trendChart'));
+        const years = Array.from({length: 37}, (_, i) => 1990 + i); 
+        const debrisData = [
+            4000, 4200, 4500, 4700, 5000, 5200, 5300, 5500, 5800, 6000, 6200, 6400, 6700, 6900, 7100, 7400, 7600, 
+            11000, 11200, 13500, 14000, 14500, 15000, 15500, 16000, 16500, 17000, 17500, 18000, 20000, 23000, 26000, 30000, 34000, 38500, 43000, 47800
+        ];
+        trendChart.setOption({
+            title: { text: '注：本数据仅包含直径 >10cm 的雷达可追踪物体', textStyle: { color: '#666', fontSize: 12, fontWeight: 'normal' }, right: '5%', top: '2%' },
+            tooltip: { trigger: 'axis', backgroundColor: 'rgba(21, 21, 21, 0.9)', textStyle: { color: '#fff' } },
+            grid: { left: '10%', right: '5%', bottom: '10%', top: '15%' },
+            xAxis: { type: 'category', data: years, axisLabel: { color: '#888' }, axisLine: { lineStyle: { color: '#333' } } },
+            yAxis: { type: 'value', name: '编目物体总数 (颗)', nameTextStyle: { color: '#888' }, splitLine: { lineStyle: { color: '#222', type: 'dashed' } } },
+            series: [{
+                name: '在轨总数', type: 'line', data: debrisData, smooth: true, symbolSize: 6,
+                itemStyle: { color: '#deff9a' }, lineStyle: { width: 3 },
+                areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(222, 255, 154, 0.4)' }, { offset: 1, color: 'rgba(222, 255, 154, 0.0)' }]) },
+                markPoint: {
+                    symbol: 'pin', symbolSize: 45, itemStyle: { color: '#ff6b6b', shadowBlur: 10, shadowColor: '#ff6b6b' }, label: { color: '#fff', fontSize: 10 },
+                    tooltip: {
+                        trigger: 'item', padding: 0, backgroundColor: 'transparent', borderColor: 'transparent',
+                        formatter: function (params) {
+                            let imgUrl = '', desc = '';
+                            if (params.name === '2007 FY-1C') { imgUrl = 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=400&auto=format&fit=crop'; desc = '风云一号C气象卫星反卫星导弹试验，产生超3000块可追踪碎片，是史上最严重单一碎片事件。'; } 
+                            else if (params.name === '2009 相撞') { imgUrl = 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=400&auto=format&fit=crop'; desc = '退役的 Cosmos 2251 与运行中的 Iridium 33 通信卫星以约 11.7 公里/秒的速度迎面相撞。'; } 
+                            else if (params.name === '2019 星链') { imgUrl = 'https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=400&auto=format&fit=crop'; desc = 'SpaceX 等巨型商业星座计划启动，近地轨道在轨数量突破历史极值。'; }
+                            return `<div style="background: rgba(15,15,15,0.95); border: 1px solid #ff6b6b; border-radius: 8px; width: 260px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.8);"><img src="${imgUrl}" style="width: 100%; height: 130px; object-fit: cover; display: block;"><div style="padding: 15px;"><h4 style="margin: 0 0 8px 0; color: #ff6b6b; font-size: 16px; font-family: 'Urbanist', sans-serif;">${params.name}</h4><p style="margin: 0; color: #ddd; font-size: 13px; line-height: 1.5; white-space: normal;">${desc}</p></div></div>`;
+                        }
+                    },
+                    data: [{ name: '2007 FY-1C', value: '2007', xAxis: 17, yAxis: 11000 }, { name: '2009 相撞', value: '2009', xAxis: 19, yAxis: 13500 }, { name: '2019 星链', value: '2019', xAxis: 29, yAxis: 20000 }]
+                }
+            }]
+        });
+
+        // ==========================================
+        // 2. 极坐标雷达图
+        // ==========================================
+        const scatterChart = echarts.init(document.getElementById('scatterChart'));
+        const polarData = [];
+        for(let i=0; i<2500; i++) {
+            let u = 0, v = 0; while(u === 0) u = Math.random(); while(v === 0) v = Math.random();
+            let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+            let alt = 700 + num * 250; if (alt < 300) alt = 300 + Math.random()*200; 
+            let angle = Math.random() * 360;
+            if(i % 15 === 0) angle = 45 + Math.random() * 15; if(i % 20 === 0) angle = 210 + Math.random() * 10;
+            polarData.push([alt, angle]);
+        }
+        for(let i=0; i<300; i++) { polarData.push([15000 + Math.random() * 8000, Math.random() * 360]); }
+        for(let i=0; i<700; i++) {
+            let alt = Math.random() > 0.5 ? 35786 + (Math.random() - 0.5) * 50 : 36086 + Math.random() * 200;
+            polarData.push([alt, Math.random() * 360]);
+        }
+        scatterChart.setOption({
+            title: { text: '上帝视角：近地空间轨道碎片分布', textStyle: { color: '#888', fontSize: 14, fontWeight: 'normal', fontFamily: 'Urbanist' }, left: 'center', top: '2%' },
+            tooltip: { 
+                formatter: function (obj) { 
+                    let alt = Math.round(obj.value[0]), label = '';
+                    if (alt < 2000) label = '<span style="color:#ff6b6b;font-weight:bold;">LEO (低地轨道-碰撞高危带)</span>';
+                    else if (alt > 35900) label = '<span style="color:#1dd1a1;">Graveyard (墓地轨道-报废区)</span>';
+                    else if (alt > 35000) label = '<span style="color:#1dd1a1;">GEO (地球同步轨道)</span>';
+                    else label = '<span style="color:#feca57;">MEO (中轨带)</span>';
+                    return '当前高度: ~' + alt + ' km<br/>轨道类型: ' + label; 
+                }, 
+                backgroundColor: 'rgba(21,21,21,0.9)', textStyle: {color: '#fff'}, borderColor: '#444'
+            },
+            polar: { radius: ['12%', '85%'] },
+            angleAxis: { type: 'value', min: 0, max: 360, axisLine: { show: false }, axisTick: { show: false }, axisLabel: { show: false }, splitLine: { show: false } },
+            radiusAxis: { type: 'log', min: 100, max: 100000, axisLine: { show: false }, axisLabel: { show: false }, axisTick: { show: false }, splitLine: { show: true, lineStyle: { color: 'rgba(222, 255, 154, 0.1)', type: 'dashed' } } },
+            visualMap: { show: false, dimension: 0, type: 'continuous', min: 400, max: 36500, inRange: { color: ['#ff6b6b', '#feca57', '#1dd1a1'], symbolSize: [4, 1.5] } },
+            graphic: { elements: [{ type: 'circle', left: 'center', top: 'center', shape: { r: 24 }, style: { fill: '#0a192f', stroke: '#deff9a', lineWidth: 1, shadowBlur: 20, shadowColor: '#deff9a' } }, { type: 'text', left: 'center', top: 'center', style: { text: 'EARTH', fill: '#fff', fontSize: 9, fontWeight: 'bold', fontFamily: 'Urbanist' } }] },
+            series: [{ coordinateSystem: 'polar', type: 'scatter', data: polarData, itemStyle: { shadowBlur: 8, opacity: 0.75 }, animationDelay: function (idx) { return idx * 1.2; } }]
+        });
+
+        // ==========================================
+        // 3. 责任归属玫瑰图
+        // ==========================================
+        const pieChart = echarts.init(document.getElementById('pieChart'));
+        pieChart.setOption({
+            tooltip: { trigger: 'item', formatter: '{b}: {c}% <br/><span style="font-size:12px;color:#aaa">（基于 SSN 编目追踪数据估算）</span>', backgroundColor: 'rgba(21, 21, 21, 0.9)', textStyle: { color: '#fff' } },
+            legend: { bottom: '0%', textStyle: { color: '#888' }, itemWidth: 10, itemHeight: 10 },
+            color: ['#ff6b6b', '#ff9f43', '#feca57', '#deff9a', '#1dd1a1'],
+            series: [{
+                name: '来源归属', type: 'pie', radius: ['15%', '65%'], center: ['50%', '45%'], roseType: 'area',
+                itemStyle: { borderRadius: 5, borderColor: '#151515', borderWidth: 2 },
+                label: { color: '#d0d0d0', formatter: '{b}\n{d}%' },
+                data: [
+                    { value: 36, name: '俄罗斯 (含前苏联)\n冷战遗留与军备' }, { value: 32, name: '美国\n历史军备+商业星链' },
+                    { value: 18, name: '中国\n航天发展与试验' }, { value: 8, name: '欧洲航天局 (ESA)' }, { value: 6, name: '全球其余国家总和' }
+                ]
+            }]
+        });
+
+        window.addEventListener('resize', () => { trendChart.resize(); scatterChart.resize(); pieChart.resize(); });
+    </script>
+</body>
+</html>

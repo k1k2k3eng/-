@@ -25,7 +25,7 @@
         * { box-sizing: border-box; }
         body { background-color: var(--bg-dark); color: var(--text-main); margin: 0; display: flex; flex-direction: column; align-items: center; font-family: var(--font-sans); overflow-x: hidden; }
         
-        /* 封面区：硬核新闻风格 */
+        /* 封面区 */
         .hero { width: 100%; min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(255, 51, 102, 0.08) 0%, #000 70%); padding: 20px; border-bottom: 1px solid #222; }
         .hero .news-tag { background: var(--secondary); color: #fff; padding: 5px 15px; font-size: 14px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; border-radius: 2px; }
         .hero h1 { font-family: var(--font-serif); font-size: 60px; margin: 0 0 30px 0; letter-spacing: 2px; line-height: 1.2; }
@@ -51,7 +51,7 @@
         .chart-wrapper { display: flex; flex-direction: column; gap: 10px; }
         .chart-container { width: 100%; height: 500px; background: var(--bg-card); border-radius: 12px; border: 1px solid #222; padding: 20px; overflow: hidden; }
         
-        /* 3D 图表容器特定高度，全黑背景凸显高级感 */
+        /* 3D 图表容器特定高度 */
         #globeChart { height: 600px; padding: 0; background: #000; box-shadow: 0 0 50px rgba(0,0,0,0.8) inset; }
         .source-tag { text-align: right; font-size: 12px; color: #666; font-family: var(--font-sans); }
 
@@ -71,7 +71,11 @@
         .data-item span:first-child { color: var(--primary); width: 140px; font-weight: bold; font-family: var(--font-sans); }
         .data-item span:last-child { color: #bbb; flex: 1; font-family: var(--font-serif); line-height: 1.6;}
 
-        footer { text-align: center; padding: 40px; color: #444; font-size: 14px; margin-top: 60px; border-top: 1px solid #111; width: 100%; font-family: var(--font-sans); }
+        /* 页脚样式强化 */
+        footer { text-align: center; padding: 40px; color: #555; margin-top: 60px; border-top: 1px solid #111; width: 100%; font-family: var(--font-sans); }
+        .footer-title { font-size: 14px; margin-bottom: 8px; color: #666; }
+        .footer-author { font-size: 14px; color: #888; font-family: var(--font-serif); letter-spacing: 1px; }
+        .footer-author span { color: var(--primary); margin: 0 10px; opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -176,7 +180,8 @@
     </main>
 
     <footer>
-        <p>—— 深度数据新闻与可视化报道 ——</p>
+        <p class="footer-title">—— 深度数据新闻与可视化报道 ——</p>
+        <p class="footer-author">机械工程学院 吴宸恺 <span>|</span> 学号 3024001099</p>
     </footer>
 
     <script>
@@ -209,22 +214,17 @@
         // 2. 流畅版 WebGL 3D 地球引擎
         // ==========================================
         const globeChart = echarts.init(document.getElementById('globeChart'));
-        
-        // 优化：仅生成适量的 3D 粒子以确保电脑不卡顿 (共约 1600 个点)
         const debris3DData = [];
         
-        // LEO (低轨 - 红色)
         for (let i = 0; i < 1200; i++) {
             let lng = Math.random() * 360 - 180;
             let lat = Math.random() * 180 - 90;
-            let height = 0.05 + Math.random() * 0.1; // 距离地表的比例高度
+            let height = 0.05 + Math.random() * 0.1; 
             debris3DData.push({ value: [lng, lat, height], itemStyle: { color: '#ff3366' }, symbolSize: 2.5 });
         }
-        
-        // GEO (高轨 - 绿色)
         for (let i = 0; i < 400; i++) {
             let lng = Math.random() * 360 - 180;
-            let lat = (Math.random() - 0.5) * 20; // 集中在赤道附近
+            let lat = (Math.random() - 0.5) * 20; 
             let height = 0.4 + Math.random() * 0.1; 
             debris3DData.push({ value: [lng, lat, height], itemStyle: { color: '#00e5ff' }, symbolSize: 1.5 });
         }
@@ -232,9 +232,8 @@
         globeChart.setOption({
             backgroundColor: '#000',
             globe: {
-                // 使用官方地球基础贴图
                 baseTexture: 'https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data-gl/asset/earth.jpg',
-                shading: 'color', // 采用纯色渲染，抛弃复杂的光照计算，彻底解决卡顿
+                shading: 'color', 
                 environment: '#000', 
                 viewControl: {
                     autoRotate: true,
@@ -278,7 +277,6 @@
             ]
         });
 
-        // 响应式布局
         window.addEventListener('resize', () => { 
             trendChart.resize(); 
             globeChart.resize(); 
